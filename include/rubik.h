@@ -61,7 +61,8 @@ int		cube_is_solved(const t_cube *cube);
 int		cube_to_cubie(const t_cube *cube, t_cubie_cube *cubies);
 int		cubie_apply_move(t_cubie_cube *cube, t_move move);
 int		cubie_is_solved(const t_cubie_cube *cube);
-int		solve_cube(const t_cube *cube, t_move_list *solution);int	solve_cube_timed(const t_cube *cube, t_move_list *solution,
+int		solve_cube(const t_cube *cube, t_move_list *solution);
+int		solve_cube_timed(const t_cube *cube, t_move_list *solution,
 		unsigned int milliseconds);
 int	solve_cube_2x2(const t_cube *cube, t_move_list *solution);
 #endif

@@ -36,7 +36,7 @@ Pour afficher la solution, son nombre de mouvements et le temps de calcul :
 
 Le nombre utilise la métrique HTM : un quart de tour ou un demi-tour compte pour un mouvement. Le temps est mesuré en secondes, de l'analyse du mélange à la fin de la résolution, sans compter l'affichage ni le démarrage du processus.
 
-Le mode temporel conserve le solveur en deux phases et explore plusieurs possibilités, avec un budget de 1,5 seconde pour chaque phase. Il conserve aussi la solution du solveur standard et renvoie la plus courte solution trouvée parmi les candidats conservés ; l'optimalité n'est pas garantie :
+Le mode temporel calcule d'abord une solution de référence avec le solveur standard, puis explore plusieurs possibilités avec un budget de 1,5 seconde pour chaque phase. Il renvoie la plus courte solution trouvée parmi les candidats conservés et la solution de référence ; l'optimalité n'est pas garantie. Le temps total peut donc dépasser 3 secondes, sans compter la construction initiale des tables :
 
 ```sh
 ./rubik --timed "F R U2 B' L' D'"
@@ -50,6 +50,7 @@ Le mode 2x2 accepte la même notation de mélange. Il construit un cube avec le 
 ```
 
 La sortie du mode `--2x2` résout les huit coins ; les centres et les arêtes du modèle interne ne sont pas pris en compte.
+Le solveur 2×2 n'est pas disponible dans le mode de visualisation 3D.
 
 ## Générer des mélanges
 
@@ -117,7 +118,7 @@ Les rotations de cube (`x`, `y`, `z`) et les mouvements de tranche (`M`, `E`, `S
 
 Le programme applique le mélange à un cube résolu, convertit son état en permutations et orientations de coins et d'arêtes, puis recherche une solution avec un solveur en deux phases. La première phase amène le cube dans un sous-groupe adapté ; la seconde termine la résolution. Des tables de mouvements et de distances guident la recherche.
 
-La recherche 3x3 standard est limitée à 12 mouvements en phase 1 et 18 en phase 2. Le mode temporel explore jusqu'à 20 mouvements en phase 1 et 18 en phase 2, avec un maximum de 30 mouvements avant simplification et un budget de 1,5 seconde par phase. Une phase peut finir avant son délai si les possibilités considérées sont épuisées ; la construction initiale des tables et un éventuel repli ajoutent du temps. Le solveur 2x2 utilise des tables de distance séparées pour les permutations et orientations des coins et une recherche itérative jusqu'à 14 mouvements. Les mouvements consécutifs de la même face sont fusionnés dans les solutions renvoyées.
+La recherche 3x3 standard est limitée à 12 mouvements en phase 1 et 18 en phase 2. Le mode temporel explore jusqu'à 20 mouvements en phase 1 et 18 en phase 2, avec un maximum de 30 mouvements avant simplification et un budget de 1,5 seconde par phase. Une phase peut finir avant son délai si les possibilités considérées sont épuisées. Le calcul préalable de la solution de référence et la construction initiale des tables s'ajoutent à ces budgets. Le solveur 2x2 utilise des tables de distance séparées pour les permutations et orientations des coins et une recherche itérative jusqu'à 14 mouvements. Les mouvements consécutifs de la même face sont fusionnés dans les solutions renvoyées.
 
 ## Tests et nettoyage
 
